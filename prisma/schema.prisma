@@ -17,6 +17,44 @@ model Person {
   id        Int      @id @default(autoincrement())
   name      String
   email     String
+  contacts  Contact[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Property {
+  id        Int      @id @default(autoincrement())
+  name      String
+  address   String
+  contacts  Contact[]
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  person    Person?    @relation(fields: [personId], references: [id])
+  property  Property?  @relation(fields: [propertyId], references: [id])
+  
+  personId  Int?
+  propertyId Int?
+  pago      pago[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model pago {
+  id        Int      @id @default(autoincrement())
+  fecha     DateTime
+  monto     Float
+  
+  contact   Contact?  @relation(fields: [contactId], references: [id])
+  contactId Int?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
